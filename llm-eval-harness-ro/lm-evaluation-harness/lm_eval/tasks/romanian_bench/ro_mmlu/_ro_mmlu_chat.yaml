@@ -1,0 +1,7 @@
+# Chat-template variant of _ro_mmlu: the question goes in the user turn and "Răspuns:" is
+# prefilled at the start of the assistant turn, so the scored letter follows it directly.
+# Use with --apply_chat_template.
+include: _ro_mmlu.yaml
+task: _ro_mmlu_chat
+doc_to_text: "Întrebare: {{instruction.strip()}}\nVariante:\nA. {{option_a}}\nB. {{option_b}}\nC. {{option_c}}\nD. {{option_d}}"
+gen_prefix: "Răspuns:"

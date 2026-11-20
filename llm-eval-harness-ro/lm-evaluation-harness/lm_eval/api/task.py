@@ -81,6 +81,8 @@ class TaskConfig(dict):
     description: str = ""
     target_delimiter: str = " "
     fewshot_delimiter: str = "\n\n"
+    # chat-template runs only: text prefilled at the start of the assistant turn, e.g. "Răspuns:"
+    gen_prefix: Optional[str] = None
     fewshot_config: Optional[dict] = None
     # runtime configuration options
     num_fewshot: Optional[int] = None
@@ -1089,8 +1091,9 @@ class ConfigurableTask(Task):
 
         example = self.doc_to_text(doc)
         if apply_chat_template:
+            gen_prefix = self.config.gen_prefix or ""
             if self.multiple_input:
-                return chat_template(labeled_examples)
+                return chat_template(labeled_examples) + gen_prefix
             if isinstance(example, str):
                 self.append_target_question(
                     labeled_examples, example, fewshot_as_multiturn
@@ -1102,7 +1105,7 @@ class ConfigurableTask(Task):
                 for ex in example:
                     chat = deepcopy(labeled_examples)
                     self.append_target_question(chat, ex, fewshot_as_multiturn)
-                    labeled_examples_list.append(chat_template(chat))
+                    labeled_examples_list.append(chat_template(chat) + gen_prefix)
                 return labeled_examples_list
             # if example is an integer, append the choice or convert to string
             elif isinstance(example, int):
@@ -1116,7 +1119,7 @@ class ConfigurableTask(Task):
                         labeled_examples, str(example), fewshot_as_multiturn
                     )
                 # return lm.apply_chat_template(labeled_examples)
-            return chat_template(labeled_examples)
+            return chat_template(labeled_examples) + gen_prefix
         else:
             if self.multiple_input:
                 return labeled_examples

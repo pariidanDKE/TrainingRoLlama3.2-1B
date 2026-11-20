@@ -8,7 +8,7 @@
 set -e  # Exit on error
 
 # Navigate to the continual_pretrain directory
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 
 # Colors for output
 GREEN='\033[0;32m'

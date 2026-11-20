@@ -9,7 +9,7 @@
 
 set -e
 
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 
 # Colors
 GREEN='\033[0;32m'

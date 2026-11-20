@@ -41,7 +41,7 @@ substack_post_raw.md
 CLAUDE.md
 continual_pretrain/Papers/
 continual_pretrain/diagnostics_debugging/
-continual_pretrain/scripts/run_full_cpt_eval.sh
+continual_pretrain/scripts/cpt/run_full_cpt_eval.sh
 
 # IDE / OS
 .vscode/

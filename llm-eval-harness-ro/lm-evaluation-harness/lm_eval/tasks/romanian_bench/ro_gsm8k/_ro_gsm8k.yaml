@@ -20,6 +20,7 @@ metric_list:
       - "\\$"
       - "(?s).*#### "
       - "\\.$"
+      - "(?<=\\d)\\.(?=\\d{3}\\b)"   # Romanian thousands separator: 70.000 -> 70000
 generation_kwargs:
   until:
     - "Întrebare:"
@@ -33,6 +34,13 @@ filter_list:
     filter:
       - function: "regex"
         regex_pattern: "#### (\\-?[0-9\\.\\,]+)"
+      - function: "take_first"
+  # last number in the answer: for chat models that skip the "#### N" format
+  - name: "flexible-extract"
+    filter:
+      - function: "regex"
+        group_select: -1
+        regex_pattern: "(-?[$0-9.,]{2,})|(-?[0-9]+)"
       - function: "take_first"
 
 metadata:

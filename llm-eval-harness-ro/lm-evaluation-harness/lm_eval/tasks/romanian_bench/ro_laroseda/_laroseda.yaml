@@ -1,7 +1,10 @@
 task: base_laroseda
-dataset_path: laroseda
+dataset_path: parquet
 dataset_name: null
-dataset_kwargs: null
+dataset_kwargs:  # parquet export on the Hub (the original loading script no longer runs)
+  data_files:
+    train: hf://datasets/universityofbucharest/laroseda@refs%2Fconvert%2Fparquet/laroseda/train/0000.parquet
+    test: hf://datasets/universityofbucharest/laroseda@refs%2Fconvert%2Fparquet/laroseda/test/0000.parquet
 
 training_split: train
 test_split: test
