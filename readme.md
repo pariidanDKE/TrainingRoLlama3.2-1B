@@ -147,13 +147,22 @@ The Python lives in `experiments/language_vector/`:
 
 ## Evaluation
 
+`run_evaluation.py` scores a model on the benchmark suite in `configs/train_model.yaml` (`benchmark_evaluation_cfg`),
+using a custom fork of [lm-evaluation-harness](llm-eval-harness-ro/) with Romanian tasks. Results go to `eval_results/`.
+
 ```bash
 cd continual_pretrain
-python run_evaluation.py model_path="path/to/merged/model"
+# Base model from the config (unsloth/Llama-3.2-1B)
+python run_evaluation.py
+# A CPT checkpoint or the released adapter: base model and LoRA config are read from its adapter_config.json
+python run_evaluation.py +evaluate.checkpoint_path=outputs/release/rollama-3.2-1b-ro-cpt-filtered
+# Only some tasks
+python run_evaluation.py "benchmark_evaluation_cfg.tasks_to_run=[_ro_arc_challenge,_ro_hellaswag]"
 ```
 
-Uses a custom fork of [lm-evaluation-harness](llm-eval-harness-ro/) with Romanian tasks:
-`ro_arc_challenge`, `ro_winogrande`, `ro_belebele`, `ro_mmlu`, `ro_wiki`
+Tasks (all run by default): Romanian `_ro_arc_challenge`, `_ro_hellaswag`, `_ro_mmlu`, `_ro_winogrande`, `_ro_belebele`,
+`_ro_grammar`, `_ro_gsm8k` and `ro_wiki` (perplexity); English `arc_challenge`, `winogrande` and `wikitext`.
+The model loads in 4-bit, as in training. For full-precision OpenLLM-Ro numbers use `scripts/cpt/run_openllm_ro_suite.sh`.
 
 ---
 
